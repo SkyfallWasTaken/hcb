@@ -36,4 +36,9 @@ else
   echo "To enable Solargraph, run docker_start.sh with the --with-solargraph flag."
 fi
 
-docker compose run --service-ports web "${@/--with-solargraph/''}"
+# remove --with-solargraph from arguments and run
+# if you don't do this, the script crashes w/ this flag
+ARGS=("$@")
+ARGS=("${ARGS[@]/--with-solargraph}")
+
+docker compose run --service-ports web "${ARGS[@]}"
